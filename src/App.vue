@@ -1,26 +1,56 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <ColumnComponent
+        v-for="n in 5"
+        :key="n"
+        :background-color="getRandomColor()"
+        :color-hex="color"
+    />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {gerenerateRandomColor} from "@/helpers/generateRandomColor.js";
+import ColumnComponent from "@/components/ColumnComponent.vue";
 
 export default {
   name: 'App',
+  data() {
+    return {
+      color: undefined,
+    }
+  },
   components: {
-    HelloWorld
-  }
+    ColumnComponent,
+  },
+  beforeMount() {
+    document.addEventListener('keydown', (e) => {
+      e.preventDefault();
+      if (e.code.toLowerCase() === 'space') {
+        this.getRandomColor();
+      }
+    })
+  },
+  methods: {
+    getRandomColor() {
+      const color = gerenerateRandomColor();
+      this.$data.color = color;
+      return color;
+    },
+  },
+
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  .container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
 </style>
