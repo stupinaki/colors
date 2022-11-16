@@ -12,10 +12,10 @@
 
     <button
         :class="['button', textColor]"
-        @click="isClose = !isClose"
+        @click="onLockClick"
     >
       <i
-          v-if="isClose"
+          v-if="isBlocked"
           class="fa-solid fa-lock"
       />
       <i
@@ -31,28 +31,28 @@ import chroma from "chroma-js";
 
 export default {
   name: "ColumnComponent",
+  emits: ['doNotChange'],
   data() {
     return {
-      isClose: true,
       isCopy: false
     }
   },
   props: {
-    backgroundColor: {
-      type: String,
-      required: true,
-    },
     colorHex: {
       type: String,
       required: true,
     },
+    isBlocked: {
+      type: Boolean,
+      required: true,
+    }
   },
   computed: {
     background() {
-      return 'background: ' + this.$props.backgroundColor;
+      return 'background: ' + this.$props.colorHex;
     },
     textColor() {
-      const luminance = chroma(this.$props.backgroundColor).luminance();
+      const luminance = chroma(this.$props.colorHex).luminance();
       return luminance > 0.5 ? 'textBlack' : 'textWhite';
     },
     text() {
@@ -65,7 +65,9 @@ export default {
       navigator.clipboard.writeText(this.$props.colorHex)
       setTimeout(() => this.$data.isCopy = false, 800)
     },
-
+    onLockClick() {
+        this.$emit('doNotChange');
+    }
   }
 }
 </script>

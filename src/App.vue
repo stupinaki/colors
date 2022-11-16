@@ -1,44 +1,55 @@
 <template>
   <div class="container">
     <ColumnComponent
-        v-for="n in 5"
-        :key="n"
-        :background-color="getRandomColor()"
-        :color-hex="color"
+        v-for="(color, i) in colors"
+        :key="i"
+        :color-hex="color.color"
+        :is-blocked="color.isBlocked"
+        @doNotChange="onDoNotChange(i)"
     />
   </div>
 </template>
 
 <script>
-import {gerenerateRandomColor} from "@/helpers/generateRandomColor.js";
+import { initRandomColorsArray } from "@/helpers/initRandomColorsArray.js";
+import { generateRandomColor} from "@/helpers/generateRandomColor.js";
 import ColumnComponent from "@/components/ColumnComponent.vue";
 
 export default {
   name: 'App',
   data() {
     return {
-      color: undefined,
+      columnQwt: 5,
+      colors: [],
     }
   },
   components: {
     ColumnComponent,
   },
   beforeMount() {
+    this.$data.colors = initRandomColorsArray(this.$data.columnQwt);
+
     document.addEventListener('keydown', (e) => {
       e.preventDefault();
+
       if (e.code.toLowerCase() === 'space') {
-        this.getRandomColor();
-      }
+        this.$data.colors.forEach(col => {
+            if(!col.isBlocked) {
+              col.color = generateRandomColor();
+            }
+          })
+        }
     })
   },
   methods: {
-    getRandomColor() {
-      const color = gerenerateRandomColor();
-      this.$data.color = color;
-      return color;
+    onDoNotChange (index) {
+      const oldColor = this.$data.colors[index];
+      this.$data.colors.splice(index, 1, {
+        ...oldColor,
+        isBlocked: !oldColor.isBlocked,
+      })
     },
   },
-
 }
 </script>
 
