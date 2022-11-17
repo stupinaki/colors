@@ -21,10 +21,9 @@ export default {
 
 <style scoped>
   .button {
-    position: absolute;
-    top: 90%;
-    left: 80%;
-    transform: translate(-50%, -50%);
+    position: fixed;
+    bottom: 4%;
+    left: 74%;
     background-color: #0000001A;
     border: none;
     outline: none;
