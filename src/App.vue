@@ -14,6 +14,7 @@
 import { initRandomColorsArray } from "@/helpers/initRandomColorsArray.js";
 import { generateRandomColor} from "@/helpers/generateRandomColor.js";
 import ColumnComponent from "@/components/ColumnComponent.vue";
+import {updateColorsHash} from "@/helpers/updateColorsHash.js";
 
 export default {
   name: 'App',
@@ -28,6 +29,7 @@ export default {
   },
   beforeMount() {
     this.$data.colors = initRandomColorsArray(this.$data.columnQwt);
+    updateColorsHash(this.$data.colors);
 
     document.addEventListener('keydown', (e) => {
       e.preventDefault();
@@ -38,7 +40,8 @@ export default {
               col.color = generateRandomColor();
             }
           })
-        }
+        updateColorsHash(this.$data.colors);
+      }
     })
   },
   methods: {
