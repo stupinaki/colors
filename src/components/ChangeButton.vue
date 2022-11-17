@@ -26,13 +26,13 @@ export default {
     left: 74%;
     background-color: #0000001A;
     border: none;
-    outline: none;
     padding: 12px;
     border-radius: 50%;
     cursor: pointer;
     width: 80px;
     height: 80px;
     font-weight: bold;
+    -webkit-tap-highlight-color: #00000000;
   }
 
   .button:hover {
