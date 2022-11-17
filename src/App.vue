@@ -1,8 +1,5 @@
 <template>
-  <div
-      id="app"
-      class="container"
-  >
+  <div class="container">
     <ColumnComponent
         v-for="(color, i) in colors"
         :key="i"
